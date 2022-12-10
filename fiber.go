@@ -44,7 +44,7 @@ type EnableNodeRequest struct {
 //     IMPORTANT NOTE: chainId is what you set in your eznode instance
 //   - POST `/manage/disable-node`: disable a node, accept DisableNodeRequest as body
 //   - POST `/manage/enable-node`: enable a node, accept EnableNodeRequest as body
-func StartFiber(port int, e *eznode.EzNode, logLevel logrus.Level) {
+func StartFiber(port int, e *eznode.EzNode, logLevel logrus.Level) error {
 	logger := logrus.New()
 	logger.SetLevel(logLevel)
 
@@ -84,5 +84,5 @@ func StartFiber(port int, e *eznode.EzNode, logLevel logrus.Level) {
 		return handleRequest(c, c.Method(), e, logger)
 	})
 
-	logger.Fatal(app.Listen(":" + strconv.Itoa(port)))
+	return app.Listen(":" + strconv.Itoa(port))
 }
